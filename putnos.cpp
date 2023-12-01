@@ -1,88 +1,80 @@
 #include <iostream>
 #include <string>
 
-class ContadorPuntos {
-private:
-    int puntosEquipo1;
-    int puntosEquipo2;
+// Base class: Equipo
+class Equipo {
+protected:
+    int puntos;
 
 public:
-    ContadorPuntos() : puntosEquipo1(0), puntosEquipo2(0) {}
+    Equipo() : puntos(0) {}
 
-    void anotarTouchdown(std::string equipo) {
+    virtual void anotar(std::string equipo) = 0; // Pure virtual method for scoring, must be implemented by derived classes.
+    virtual void mostrarPuntos() const {
+        // Optional virtual method to display points.
+        // Can be overridden by derived classes if necessary.
+        std::cout << "Points: " << puntos << std::endl;
+    }
+};
+
+// Derived class: ContadorPuntos inherits from Equipo
+class ContadorPuntos : public Equipo {
+private:
+    std::string nombre;
+
+public:
+    ContadorPuntos(const std::string& nombreEquipo) : nombre(nombreEquipo) {}
+
+    void anotar(std::string equipo) override {
         if (equipo == "E1") {
-            puntosEquipo1 += 6;
-            std::cout << "¡Touchdown para el Equipo 1! Se suman 6 puntos." << std::endl;
+            puntos += 6;
+            std::cout << "Touchdown for Team 1! 6 points added." << std::endl;
         } else if (equipo == "E2") {
-            puntosEquipo2 += 6;
-            std::cout << "¡Touchdown para el Equipo 2! Se suman 6 puntos." << std::endl;
+            puntos += 6;
+            std::cout << "Touchdown for Team 2! 6 points added." << std::endl;
         } else {
-            std::cout << "Equipo no válido." << std::endl;
+            std::cout << "Invalid team." << std::endl;
         }
     }
 
-    void anotarPuntoExtra(std::string equipo) {
-        if (equipo == "E1") {
-            puntosEquipo1 += 1;
-            std::cout << "Punto extra para el Equipo 1 anotado. Se suma 1 punto." << std::endl;
-        } else if (equipo == "E2") {
-            puntosEquipo2 += 1;
-            std::cout << "Punto extra para el Equipo 2 anotado. Se suma 1 punto." << std::endl;
-        } else {
-            std::cout << "Equipo no válido." << std::endl;
-        }
-    }
-
-    void anotarFieldGoal(std::string equipo) {
-        if (equipo == "E1") {
-            puntosEquipo1 += 3;
-            std::cout << "Field Goal para el Equipo 1 anotado. Se suman 3 puntos." << std::endl;
-        } else if (equipo == "E2") {
-            puntosEquipo2 += 3;
-            std::cout << "Field Goal para el Equipo 2 anotado. Se suman 3 puntos." << std::endl;
-        } else {
-            std::cout << "Equipo no válido." << std::endl;
-        }
-    }
-
-    void mostrarPuntos() const {
-        std::cout << "Puntos del Equipo 1: " << puntosEquipo1 << std::endl;
-        std::cout << "Puntos del Equipo 2: " << puntosEquipo2 << std::endl;
+    void mostrarPuntos() const override {
+        std::cout << "Points for " << nombre << ": " << puntos << std::endl;
     }
 };
 
 int main() {
-    ContadorPuntos contador;
+    ContadorPuntos equipo1("Team 1");
+    ContadorPuntos equipo2("Team 2");
 
-    // Ejemplo de uso
     std::string equipo;
     char opcion;
 
     do {
-        std::cout << "Ingrese el equipo (E1 o E2): ";
+        std::cout << "Enter the team (E1 or E2): ";
         std::cin >> equipo;
 
-        std::cout << "Ingrese la acción (T para Touchdown, F para Punto Extra, G para Field Goal, Q para salir): ";
+        std::cout << "Enter the action (T for Touchdown, Q to quit): ";
         std::cin >> opcion;
 
         switch (opcion) {
             case 'T':
-                contador.anotarTouchdown(equipo);
-                break;
-            case 'F':
-                contador.anotarPuntoExtra(equipo);
-                break;
-            case 'G':
-                contador.anotarFieldGoal(equipo);
+                if (equipo == "E1") {
+                    equipo1.anotar(equipo);
+                } else if (equipo == "E2") {
+                    equipo2.anotar(equipo);
+                } else {
+                    std::cout << "Invalid team." << std::endl;
+                }
                 break;
             case 'Q':
-                std::cout << "Saliendo del programa." << std::endl;
+                std::cout << "Exiting the program." << std::endl;
                 break;
             default:
-                std::cout << "Opción no válida." << std::endl;
+                std::cout << "Invalid option." << std::endl;
         }
 
-        contador.mostrarPuntos();
+        equipo1.mostrarPuntos();
+        equipo2.mostrarPuntos();
 
     } while (opcion != 'Q');
 

@@ -1,44 +1,52 @@
+// Santiago Sauret y Andres Gomez
+
 #include <iostream>
 
-class Calculadora {
+// Base class: Operations
+class Operations {
 public:
-    int sumar(int a, int b) {
+    int add(int a, int b) {
         return a + b;
     }
 
-    int restar(int a, int b) {
+    int subtract(int a, int b) {
         return a - b;
     }
 
-    int multiplicar(int a, int b) {
+    int multiply(int a, int b) {
         return a * b;
     }
 
-    double dividir(int a, int b) {
+    double divide(int a, int b) {
         if (b != 0) {
             return static_cast<double>(a) / b;
         } else {
-            std::cout << "Error: No se puede dividir por cero." << std::endl;
+            std::cout << "Error: Cannot divide by zero." << std::endl;
             return 0.0;
         }
     }
 };
 
+// Derived class: Calculadora inherits from Operations
+class Calculadora : public Operations {
+    // No need to add new methods here since it inherits from Operations.
+};
+
 int main() {
     Calculadora calculadora;
 
-    // Ejemplo de uso
+    // Usage example
     int num1, num2;
-    std::cout << "Ingrese el primer número: ";
+    std::cout << "Enter the first number: ";
     std::cin >> num1;
 
-    std::cout << "Ingrese el segundo número: ";
+    std::cout << "Enter the second number: ";
     std::cin >> num2;
 
-    std::cout << "Suma: " << calculadora.sumar(num1, num2) << std::endl;
-    std::cout << "Resta: " << calculadora.restar(num1, num2) << std::endl;
-    std::cout << "Multiplicación: " << calculadora.multiplicar(num1, num2) << std::endl;
-    std::cout << "División: " << calculadora.dividir(num1, num2) << std::endl;
+    std::cout << "Sum: " << calculadora.add(num1, num2) << std::endl;
+    std::cout << "Subtraction: " << calculadora.subtract(num1, num2) << std::endl;
+    std::cout << "Multiplication: " << calculadora.multiply(num1, num2) << std::endl;
+    std::cout << "Division: " << calculadora.divide(num1, num2) << std::endl;
 
     return 0;
 }

@@ -1,49 +1,51 @@
 #include <iostream>
 #include <string>
 
-class Carro {
-private:
+// Base class: Vehiculo
+class Vehiculo {
+protected:
     std::string marca;
     std::string modelo;
     std::string color;
     int velocidad;
 
 public:
-    Carro(std::string marca, std::string modelo, std::string color) {
-        this->marca = marca;
-        this->modelo = modelo;
-        this->color = color;
-        this->velocidad = 0;
+    Vehiculo(std::string marca, std::string modelo, std::string color) : marca(marca), modelo(modelo), color(color), velocidad(0) {}
+
+    void accelerate(int increment) {
+        velocidad += increment;
+        std::cout << "The vehicle accelerated. Current speed: " << velocidad << " km/h" << std::endl;
     }
 
-    void acelerar(int incremento) {
-        velocidad += incremento;
-        std::cout << "El carro " << marca << " " << modelo << " aceleró. Velocidad actual: " << velocidad << " km/h" << std::endl;
-    }
-
-    void frenar(int decremento) {
-        if (velocidad >= decremento) {
-            velocidad -= decremento;
+    void brake(int decrement) {
+        if (velocidad >= decrement) {
+            velocidad -= decrement;
         } else {
             velocidad = 0;
         }
-        std::cout << "El carro " << marca << " " << modelo << " frenó. Velocidad actual: " << velocidad << " km/h" << std::endl;
+        std::cout << "The vehicle braked. Current speed: " << velocidad << " km/h" << std::endl;
     }
 
-    void obtenerInformacion() {
-        std::cout << "Carro: " << marca << " " << modelo << ", Color: " << color << ", Velocidad: " << velocidad << " km/h" << std::endl;
+    void getInfo() {
+        std::cout << "Vehicle: " << marca << " " << modelo << ", Color: " << color << ", Speed: " << velocidad << " km/h" << std::endl;
     }
 };
 
+// Derived class: Carro inherits from Vehiculo
+class Carro : public Vehiculo {
+public:
+    Carro(std::string marca, std::string modelo, std::string color) : Vehiculo(marca, modelo, color) {}
+};
+
 int main() {
-    // Ejemplo de uso
-    Carro carro1("Toyota", "Corolla", "Rojo");
-    carro1.obtenerInformacion();
+    // Example usage
+    Carro carro1("Toyota", "Corolla", "Red");
+    carro1.getInfo();
 
-    carro1.acelerar(30);
-    carro1.frenar(10);
+    carro1.accelerate(30);
+    carro1.brake(10);
 
-    carro1.obtenerInformacion();
+    carro1.getInfo();
 
     return 0;
 }

@@ -1,15 +1,7 @@
-/* Ejercicio miercoles 
-Santiago Sauret Hernandez
-Andres Gomez Nava
-
-https://www.codingame.com/playgrounds/50577/miembros-especiales-de-la-clase-en-c-practica-2/constructores
-*/
-
-
-
 #include <iostream>
 #include <string>
 
+// Base Class: Jugadorp
 class Jugadorp {
 private:
     std::string nombre;
@@ -17,94 +9,91 @@ private:
     std::string posicion;
     int numeroCamiseta;
     int hits;
-    int carrerasAnotadas;
+    int runsScored;
 
 public:
-    // Constructor por defecto
-    Jugadorp() : nombre(""), apodo(""), posicion(""), numeroCamiseta(0), hits(0), carrerasAnotadas(0) {}
+    // Default Constructor
+    Jugadorp() : nombre(""), apodo(""), posicion(""), numeroCamiseta(0), hits(0), runsScored(0) {}
 
-    // Constructor sobrecargado
-    Jugadorp(const std::string& nombre, const std::string& apodo, const std::string& posicion, int numeroCamiseta)
-        : nombre(nombre), apodo(apodo), posicion(posicion), numeroCamiseta(numeroCamiseta), hits(0), carrerasAnotadas(0) {}
+    // Parameterized Constructor
+    Jugadorp(const std::string& name, const std::string& nickname, const std::string& position, int jerseyNumber)
+        : nombre(name), apodo(nickname), posicion(position), numeroCamiseta(jerseyNumber), hits(0), runsScored(0) {}
 
-    // Constructor de copia
+    // Copy Constructor
     Jugadorp(const Jugadorp& other)
         : nombre(other.nombre), apodo(other.apodo), posicion(other.posicion), numeroCamiseta(other.numeroCamiseta),
-          hits(other.hits), carrerasAnotadas(other.carrerasAnotadas) {}
+          hits(other.hits), runsScored(other.runsScored) {}
 
     // Destructor
-    ~Jugadorp() {
+    ~Jugadorp() {}
 
-    }
+    // Friend function to display player statistics
+    friend void ShowStatistics(const Jugadorp& player);
 
-    // Función amiga para mostrar las estadisticas del jugador
-    friend void MostrarEstadisticas(const Jugadorp& jugador);
-
-    // Incrementar el número de hits y carreras anotadas
-    void RegistrarHit() {
+    // Increment the number of hits and runs scored
+    void RecordHit() {
         hits++;
     }
 
-    void RegistrarCarreraAnotada() {
-        carrerasAnotadas++;
+    void RecordRunScored() {
+        runsScored++;
     }
 
-    // Getter para el nombre
-    std::string GetNombre() const {
+    // Getter for name
+    std::string GetName() const {
         return nombre;
     }
 
-    // Getter para el apodo
-    std::string GetApodo() const {
+    // Getter for nickname
+    std::string GetNickname() const {
         return apodo;
     }
 
-    // Getter para la posición en el campo
-    std::string GetPosicion() const {
+    // Getter for position
+    std::string GetPosition() const {
         return posicion;
     }
 
-    // Getter para el número de camiseta
-    int GetNumeroCamiseta() const {
+    // Getter for jersey number
+    int GetJerseyNumber() const {
         return numeroCamiseta;
     }
 
-    // Getter para las carreras anotadas
-    int GetCarrerasAnotadas() const {
-        return carrerasAnotadas;
+    // Getter for runs scored
+    int GetRunsScored() const {
+        return runsScored;
     }
 };
 
-// Función amiga para mostrar las estadisticas del jugador
-void MostrarEstadisticas(const Jugadorp& jugador) {
-    std::cout << "Nombre: " << jugador.nombre << " (" << jugador.apodo << "), Posicion: " << jugador.posicion << ", Numero de Camiseta: " << jugador.numeroCamiseta << std::endl;
-    std::cout << "Hits: " << jugador.hits << ", Carreras Anotadas: " << jugador.carrerasAnotadas << std::endl;
+// Friend function to display player statistics
+void ShowStatistics(const Jugadorp& player) {
+    std::cout << "Name: " << player.nombre << " (" << player.apodo << "), Position: " << player.posicion << ", Jersey Number: " << player.numeroCamiseta << std::endl;
+    std::cout << "Hits: " << player.hits << ", Runs Scored: " << player.runsScored << std::endl;
 }
 
 int main() {
-    // Crear objetos de la clase Jugadorp utilizando diferentes constructores
-    Jugadorp jugador0;
-    Jugadorp jugador1("Santiago", "sau", "Jardin izquierdo", 22);
-    Jugadorp jugador2("Alex Lopez", "Lex", "Tercera Base", 17);
-    Jugadorp jugador3(jugador2);
+    // Create objects of the Jugadorp class using different constructors
+    Jugadorp player0;
+    Jugadorp player1("Santiago", "sau", "Left Field", 22);
+    Jugadorp player2("Alex Lopez", "Lex", "Third Base", 17);
+    Jugadorp player3(player2);
 
-    // Registrar estadisticas para los jugadores
-    
-    jugador2.RegistrarHit();
-    jugador2.RegistrarHit();
-    jugador1.RegistrarHit();
-    jugador1.RegistrarHit();
-    jugador1.RegistrarHit();
+    // Record statistics for players
+    player2.RecordHit();
+    player2.RecordHit();
+    player1.RecordHit();
+    player1.RecordHit();
+    player1.RecordHit();
 
-    // Registrar carreras anotadas
-    jugador2.RegistrarCarreraAnotada();
-    jugador1.RegistrarCarreraAnotada();
+    // Record runs scored
+    player2.RecordRunScored();
+    player1.RecordRunScored();
 
-    // Mostrar estadisticas de los jugadores utilizando la función amiga
-    MostrarEstadisticas(jugador0);
-    MostrarEstadisticas(jugador1);
-    MostrarEstadisticas(jugador2);
-    MostrarEstadisticas(jugador3);
+    // Display player statistics using the friend function
+    ShowStatistics(player0);
+    ShowStatistics(player1);
+    ShowStatistics(player2);
+    ShowStatistics(player3);
 
     return 0;
 }

@@ -9,103 +9,102 @@ Andres Gomez Nava
 #include <iostream>
 #include <string>
 
-// Abstract Class Deporte 
-class Deporte {
+// Abstract Class Sport
+class Sport {
 public:
-    Deporte(std::string nombre) : nombre(nombre) {}
+    Sport(std::string name) : name(name) {}
 
-    void jugar() const {
-        std::cout  << std::endl;
+    void play() const {
+        std::cout << std::endl;
     }
 
-    void mostrarNombre() const {
-        std::cout << "Deporte: " << nombre << std::endl;
+    void showName() const {
+        std::cout << "Sport: " << name << std::endl;
     }
 
-    ~Deporte() {
-        std::cout << "Destroying Deporte" << std::endl;
+    ~Sport() {
+        std::cout << "Destroying Sport" << std::endl;
     }
 
 private:
-    std::string nombre;
+    std::string name;
 };
 
-// Concrete class American Football inheriting from Deporte
-class FutbolAmericano : public virtual Deporte {
+// Concrete class American Football inheriting from Sport
+class AmericanFootball : public virtual Sport {
 public:
-    FutbolAmericano(std::string equipo) : Deporte("Football"), equipo(equipo) {}
+    AmericanFootball(std::string team) : Sport("Football"), team(team) {}
 
-    void jugar() const {
-        std::cout << equipo << " is the team of football" << std::endl;
+    void play() const {
+        std::cout << team << " is the football team" << std::endl;
     }
 
-    ~FutbolAmericano() {
-        std::cout << "Destroying FutbolAmericano" << std::endl;
+    ~AmericanFootball() {
+        std::cout << "Destroying AmericanFootball" << std::endl;
     }
 
-    FutbolAmericano(const FutbolAmericano& other) : Deporte("Futbol Americano"), equipo(other.equipo) {}
+    AmericanFootball(const AmericanFootball& other) : Sport("American Football"), team(other.team) {}
 
 private:
-    std::string equipo;
+    std::string team;
 };
 
-
-// Concrete class Baseball inheriting from Deporte
-class Beisbol : public virtual Deporte {
+// Concrete class Baseball inheriting from Sport
+class Baseball : public virtual Sport {
 public:
-    Beisbol(std::string equipo) : Deporte("baseball"), equipo(equipo) {}
+    Baseball(std::string team) : Sport("Baseball"), team(team) {}
 
-    void jugar() const {
-        std::cout << equipo << " is the team of baseball" << std::endl;
+    void play() const {
+        std::cout << team << " is the baseball team" << std::endl;
     }
 
-    ~Beisbol() {
-        std::cout << "Destroying baseball" << std::endl;
+    ~Baseball() {
+        std::cout << "Destroying Baseball" << std::endl;
     }
 
-    Beisbol(const Beisbol& other) : Deporte("baseball"), equipo(other.equipo) {}
+    Baseball(const Baseball& other) : Sport("Baseball"), team(other.team) {}
 
 private:
-    std::string equipo;
+    std::string team;
 };
 
-// Athlete Class inheriting from FutbolAmericano and Beisbol (Multiple Inheritance)
-class Atleta : public FutbolAmericano, public Beisbol {
+// Athlete Class inheriting from AmericanFootball and Baseball (Multiple Inheritance)
+class Athlete : public AmericanFootball, public Baseball {
 public:
-    Atleta(std::string nombre, std::string equipoFutbol, std::string equipoBeisbol)
-        : Deporte("football"), FutbolAmericano(equipoFutbol), Beisbol(equipoBeisbol), nombre(nombre) {}
+    Athlete(std::string name, std::string footballTeam, std::string baseballTeam)
+        : Sport("Football"), AmericanFootball(footballTeam), Baseball(baseballTeam), name(name) {}
 
-    ~Atleta() {
-        std::cout << "Destroying Atleta" << std::endl;
+    ~Athlete() {
+        std::cout << "Destroying Athlete" << std::endl;
     }
 
-    Atleta(const Atleta& other)
-        : Deporte("player"), FutbolAmericano(other), Beisbol(other), nombre(other.nombre) {}
+    Athlete(const Athlete& other)
+        : Sport("Player"), AmericanFootball(other), Baseball(other), name(other.name) {}
 
-    void entrenar() const {
-        std::cout << nombre << " is training both sports" << std::endl;
+    void train() const {
+        std::cout << name << " is training both sports" << std::endl;
     }
 
 private:
-    std::string nombre;
+    std::string name;
 };
 
 int main() {
-    // Create an instance of FutbolAmericano and call its own method
-    FutbolAmericano futbolAmericano("Greenbay");
-    futbolAmericano.mostrarNombre();
-    futbolAmericano.jugar();
+    // Create an instance of AmericanFootball and call its own method
+    AmericanFootball americanFootball("Greenbay");
+    americanFootball.showName();
+    americanFootball.play();
     
-    // Create an instance of Beisbol and call its own method
-    Beisbol beisbol("Rays");
-    beisbol.mostrarNombre();
-    beisbol.jugar();
+    // Create an instance of Baseball and call its own method
+    Baseball baseball("Rays");
+    baseball.showName();
+    baseball.play();
     
-   // Create an instance of Atleta and call its own method
-    Atleta atleta("Carlos", "Greenbay", "Rays");
-    atleta.mostrarNombre();
-    atleta.FutbolAmericano::jugar(); 
-    atleta.entrenar();
+    // Create an instance of Athlete and call its own method
+    Athlete athlete("Carlos", "Greenbay", "Rays");
+    athlete.showName();
+    athlete.AmericanFootball::play(); 
+    athlete.train();
 
     return 0;
 }
